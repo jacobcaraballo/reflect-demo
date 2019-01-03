@@ -47,7 +47,6 @@ class VideoViewController: UIViewController {
 		tableView.rowHeight = 250
 		tableView.register(VideoCell.self, forCellReuseIdentifier: "VideoCell")
 		tableView.backgroundColor = nil
-//		tableView.separatorColor = .black
 		tableView.separatorStyle = .none
 		view.addSubview(tableView)
 		
