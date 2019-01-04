@@ -12,17 +12,17 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	
 	let type: String
 	let handler: () -> ()
-    var browser = NetServiceBrowser()
-    var serviceList = [NetService]()
-    var mdnsList = [MDNSService]()
+	var browser = NetServiceBrowser()
+	var serviceList = [NetService]()
+	var mdnsList = [MDNSService]()
 	
-
+	
 	init(type: String, handler: @escaping () -> ()){
 		self.type = type
 		self.handler = handler
 		super.init()
 		self.browser.delegate = self
-    }
+	}
 	
 	func netServiceBrowserWillSearch(_ browser: NetServiceBrowser) {
 		print("mDNS browsing commencing...")
@@ -35,7 +35,7 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 			update()
 		}
 	}
-    
+	
 	func netServiceBrowser(_ browser: NetServiceBrowser, didNotSearch errorDict: [String : NSNumber]) {
 		print("Search was not successful. Error code: \(String(describing: errorDict[NetService.errorCode]))")
 	}
@@ -61,13 +61,13 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 			update()
 		}
 	}
-    
-    func update() {
-        for service in serviceList {
-            service.delegate = self
+	
+	func update() {
+		for service in serviceList {
+			service.delegate = self
 			service.resolve(withTimeout: 5)
-        }
-    }
+		}
+	}
 	
 	func getAddress(from data: Data) -> Any? {
 		
@@ -139,18 +139,18 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	func netService(_ sender: NetService, didNotResolve errorDict: [String : NSNumber]) {
 		print("\(sender.name) did not resolve: \(errorDict[NetService.errorCode]!)")
 	}
-    
+	
 	func start() {
-		browser.searchForServices(ofType: type, inDomain: "")
-    }
-    
-    func reset() {
-        browser.stop()
-        for service in serviceList {
-            service.stop()
-        }
-        serviceList.removeAll()
-        mdnsList.removeAll()
-    }
-
+		browser.searchForServices(ofType: type, inDomain: "local.")
+	}
+	
+	func reset() {
+		browser.stop()
+		for service in serviceList {
+			service.stop()
+		}
+		serviceList.removeAll()
+		mdnsList.removeAll()
+	}
+	
 }

@@ -10,8 +10,8 @@ import Foundation
 
 class MDNSService {
 	
-    let service: NetService
-    let ip: String
+	let service: NetService
+	let ip: String
 	var port: Int {
 		return service.port
 	}
@@ -19,12 +19,27 @@ class MDNSService {
 		return service.name
 	}
 	
+	var input: InputStream!
 	var output: OutputStream!
-    
-    init(service: NetService, ip:String) {
-        self.service = service
-        self.ip = ip
-    }
+	
+	init(service: NetService, ip:String) {
+		self.service = service
+		self.ip = ip
+	}
+	
+	func connect() {
+		guard output == nil && service.getInputStream(&input, outputStream: &output) else { return }
+		input.open()
+		output.open()
+	}
+	
+	func disconnect() {
+		input?.close()
+		output?.close()
+		
+		input = nil
+		output = nil
+	}
 	
 	func write(string: String) {
 		guard let data = string.data(using: String.Encoding.utf8) else { return }
@@ -32,18 +47,14 @@ class MDNSService {
 	}
 	
 	func write(data: Data) {
-		if output == nil && service.getInputStream(nil, outputStream: &output) {
-			output.open()
-		}
-		
 		let result = output.write([UInt8](data), maxLength: data.count)
 		print(result)
 	}
 	
 	deinit {
-		output.close()
+		disconnect()
 	}
-
+	
 }
 
 extension MDNSService: Equatable {
