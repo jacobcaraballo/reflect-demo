@@ -11,6 +11,32 @@ import UIKit
 
 class LoginView: UIView {
 	
+	let usernameField = UITextField()
+	let passwordField = UITextField()
 	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	init() {
+		super.init(frame: .zero)
+		
+		setupUsernameField()
+		setupPasswordField()
+		
+	}
+	
+	func setupUsernameField() {
+		
+		usernameField.translatesAutoresizingMaskIntoConstraints = false
+		
+		
+	}
+	
+	func setupPasswordField() {
+		
+		passwordField.translatesAutoresizingMaskIntoConstraints = false
+		
+	}
 	
 }

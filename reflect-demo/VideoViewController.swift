@@ -37,7 +37,7 @@ class VideoViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_menu"), style: .done, target: self, action: #selector(menuButtonPressed))
+//		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_menu"), style: .done, target: self, action: #selector(menuButtonPressed))
 		navigationItem.titleView = getTitleView()
 		view.backgroundColor = .black
 		setupTableView()
@@ -142,7 +142,7 @@ class VideoViewController: UIViewController {
 		tableView.dataSource = self
 		tableView.rowHeight = 250
 		tableView.register(VideoCell.self, forCellReuseIdentifier: "VideoCell")
-		tableView.backgroundColor = nil
+		tableView.backgroundColor = .black
 		tableView.separatorStyle = .none
 		view.addSubview(tableView)
 		

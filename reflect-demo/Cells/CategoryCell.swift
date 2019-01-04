@@ -68,8 +68,8 @@ class CategoryCell: UITableViewCell {
 		let alpha: CGFloat = expanded ? 1 : 0
 		let anim = UIViewPropertyAnimator(duration: animated ? 0.25 : 0, curve: .linear) {
 			self.label.transform = CGAffineTransform(scaleX: scale, y: scale)
-			self.topSelectionSeparator.alpha = alpha
-			self.bottomSelectionSeparator.alpha = alpha
+//			self.topSelectionSeparator.alpha = alpha
+//			self.bottomSelectionSeparator.alpha = alpha
 			self.backgroundShadow.alpha = 1 - alpha
 		}
 		anim.startAnimation()
@@ -142,7 +142,7 @@ class CategoryCell: UITableViewCell {
 		
 		bottomSelectionSeparator.translatesAutoresizingMaskIntoConstraints = false
 		bottomSelectionSeparator.backgroundColor = .red
-		bottomSelectionSeparator.alpha = 0
+//		bottomSelectionSeparator.alpha = 0
 		contentView.addSubview(bottomSelectionSeparator)
 		
 		
