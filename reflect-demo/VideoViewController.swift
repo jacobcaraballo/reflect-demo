@@ -33,6 +33,15 @@ class VideoViewController: UIViewController {
 		"video2"
 		
 	]
+	let videoCommands = [
+	
+		"playVideo1",
+		"playVideo2",
+		"playVideo3",
+		"playVideo4",
+		"playVideo5"
+	
+	]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -173,6 +182,12 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.titleText = videos[indexPath.row]
 		cell.thumbnail = thumbnails[indexPath.row]
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard let connectedService = CurrentlyConnectedService else { return }
+		let videoCommand = videoCommands[indexPath.row]
+		connectedService.write(string: videoCommand)
 	}
 	
 }

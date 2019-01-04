@@ -11,15 +11,15 @@ import Foundation
 class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	
 	let type: String
-	let handler: () -> ()
+	let didUpdateServices: ([MDNSService]) -> ()
 	var browser = NetServiceBrowser()
 	var serviceList = [NetService]()
 	var mdnsList = [MDNSService]()
 	
 	
-	init(type: String, handler: @escaping () -> ()){
+	init(type: String, handler: @escaping ([MDNSService]) -> ()){
 		self.type = type
-		self.handler = handler
+		self.didUpdateServices = handler
 		super.init()
 		self.browser.delegate = self
 	}
@@ -56,6 +56,9 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 				mdnsList.remove(at: itemIndex)
 			}
 		}
+		
+		didUpdateServices(mdnsList)
+		
 		print("Became unavailable: \(service)")
 		if !moreComing {
 			update()
@@ -126,7 +129,7 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 				let ip = String(cString: ipStringRaw)
 				print("[NEW] \(sender.name)(\(sender.type)) - \(ip)")
 				mdnsList.append(MDNSService(service: sender, ip: ip))
-				handler()
+				didUpdateServices(mdnsList)
 			}
 			
 			ipStringBuffer.deallocate()

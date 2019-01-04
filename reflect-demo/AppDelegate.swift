@@ -8,15 +8,45 @@
 
 import UIKit
 
+var MDNSServicesDiscovered = [MDNSService]()
+var CurrentlyConnectedService: MDNSService?
+var MDNSReflectBrowser: MDNSBrowser!
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
-
+	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
+		
+		MDNSReflectBrowser = MDNSBrowser(type: "_jacobc._tcp.") { services in
+			MDNSServicesDiscovered = services
+			self.updateConnectedMDNSService()
+		}
+		MDNSReflectBrowser.start()
+		
 		return true
+	}
+	
+	private func updateConnectedMDNSService() {
+		
+		// if our service is already connected, return
+		if let connectedService = CurrentlyConnectedService, MDNSServicesDiscovered.contains(connectedService) { return }
+		
+		
+		// if there are no services found, disconnect and nullify our connected service
+		guard MDNSServicesDiscovered.count != 0 else {
+			CurrentlyConnectedService?.disconnect()
+			CurrentlyConnectedService = nil
+			return
+		}
+		
+		
+		// connect the service
+		CurrentlyConnectedService = MDNSServicesDiscovered[0]
+		CurrentlyConnectedService?.connect()
+		
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
