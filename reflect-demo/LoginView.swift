@@ -119,8 +119,8 @@ class LoginView: UIViewController {
 		usernameField.delegate = self
 		usernameField.tintColor = .white
 		usernameField.inputAccessoryView = createContinueButton()
-		usernameFieldView.addSubview(usernameField)
 		usernameField.inputAccessoryView!.heightAnchor.constraint(equalToConstant: 55).isActive = true
+		usernameFieldView.addSubview(usernameField)
 		
 		// create bottom border under the field
 		let bottomBorder = UIView()
@@ -179,9 +179,9 @@ class LoginView: UIViewController {
 		passwordField.tintColor = .white
 		passwordField.isSecureTextEntry = true
 		passwordField.inputAccessoryView = createContinueButton()
+		passwordField.inputAccessoryView!.heightAnchor.constraint(equalToConstant: 55).isActive = true
 		passwordFieldView.addSubview(passwordField)
 		
-		passwordField.inputAccessoryView!.heightAnchor.constraint(equalToConstant: 55).isActive = true
 		
 		// create bottom border
 		let bottomBorder = UIView()

@@ -11,11 +11,13 @@ import Foundation
 class Video {
 	
 	var title: String
+	var instructor: String
 	var thumbnail: String
 	var command: String
 	
-	init(title: String, thumbnail: String, command: String) {
+	init(title: String, instructor: String, thumbnail: String, command: String) {
 		self.title = title
+		self.instructor = instructor
 		self.thumbnail = thumbnail
 		self.command = command
 	}

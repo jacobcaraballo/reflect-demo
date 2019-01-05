@@ -63,10 +63,13 @@ class VideoCell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		
+		clipsToBounds = true
+		
 		setupThumbImageView()
 		setupTitleView()
 		setupTitleContent()
 		setupBottomSeparator()
+		setupBorders()
 		
 	}
 	
@@ -87,6 +90,33 @@ class VideoCell: UITableViewCell {
 		gradientLayer.frame = contentView.bounds
 		gradientLayer.colors = [ UIColor(white: 0, alpha: 0.3).cgColor, UIColor(white: 0, alpha: 0.8).cgColor ]
 		gradientView.layer.addSublayer(gradientLayer)
+		
+	}
+	
+	func setupBorders() {
+		let topBorder = UIView()
+		topBorder.backgroundColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 0.6)
+		topBorder.translatesAutoresizingMaskIntoConstraints = false
+		contentView.addSubview(topBorder)
+		
+//		let bottomBorder = UIView()
+//		bottomBorder.backgroundColor = .red
+//		bottomBorder.translatesAutoresizingMaskIntoConstraints = false
+//		contentView.addSubview(bottomBorder)
+		
+		NSLayoutConstraint.activate([
+			
+			topBorder.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+			topBorder.heightAnchor.constraint(equalToConstant: 1),
+			topBorder.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+			topBorder.topAnchor.constraint(equalTo: contentView.topAnchor),
+			
+//			bottomBorder.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+//			bottomBorder.heightAnchor.constraint(equalToConstant: 1),
+//			bottomBorder.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//			bottomBorder.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+			
+			])
 		
 	}
 	

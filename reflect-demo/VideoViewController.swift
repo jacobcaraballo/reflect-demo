@@ -19,13 +19,12 @@ class VideoViewController: UIViewController {
 	let videos = [
 	
 		[
-			Video(title: "20 Min Ultimate Cardio Kick Boxing", thumbnail: "video1", command: "playVideo1")
+			Video(title: "Total Body Workout", instructor: "Jama Oliver", thumbnail: "video1", command: "reflect - Jama 2")
 		],
 		[
-			Video(title: "Cardio Abs", thumbnail: "video2", command: "playVideo2"),
-			Video(title: "Speed Workout", thumbnail: "video3", command: "playVideo3"),
-			Video(title: "20 Min Ultimate Cardio Kick Boxing", thumbnail: "video1", command: "playVideo4"),
-			Video(title: "Cardio Abs", thumbnail: "video2", command: "playVideo5")
+			Video(title: "Strength Workout", instructor: "Jama Oliver", thumbnail: "video2", command: "Reflect- Jama-1mp4"),
+			Video(title: "Holy Hits", instructor: "Jamie Wilbanks", thumbnail: "video3", command: "reflect- Jamie"),
+			Video(title: "Body Weight Hit", instructor: "Marsha Goldberg", thumbnail: "video4", command: "reflect- Marsha-")
 		]
 	
 	]
@@ -33,9 +32,9 @@ class VideoViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-//		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_menu"), style: .done, target: self, action: #selector(menuButtonPressed))
 		navigationItem.titleView = getTitleView()
-		view.backgroundColor = .black
+		view.backgroundColor = UIColor(white: 0, alpha: 1.0)
+
 		setupTableView()
 		setupCategoryFilterView()
 	}
@@ -138,7 +137,7 @@ class VideoViewController: UIViewController {
 		tableView.dataSource = self
 		tableView.rowHeight = 250
 		tableView.register(VideoCell.self, forCellReuseIdentifier: "VideoCell")
-		tableView.backgroundColor = .black
+		tableView.backgroundColor = nil
 		tableView.separatorStyle = .none
 		view.addSubview(tableView)
 		
@@ -169,10 +168,10 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "VideoCell", for: indexPath) as! VideoCell
 		cell.selectionStyle = .none
-		cell.instructorName = "Instructor Name"
 		
 		let video =  videos[indexPath.section][indexPath.row]
 		cell.titleText = video.title
+		cell.instructorName = video.instructor
 		cell.thumbnail = video.thumbnail
 		cell.showsBottomSeparator = indexPath.section != 0
 		return cell
