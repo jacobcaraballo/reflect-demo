@@ -16,7 +16,6 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	var serviceList = [NetService]()
 	var mdnsList = [MDNSService]()
 	
-	
 	init(type: String, handler: @escaping ([MDNSService]) -> ()){
 		self.type = type
 		self.didUpdateServices = handler
@@ -39,6 +38,7 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	
 	func netServiceBrowser(_ browser: NetServiceBrowser, didNotSearch errorDict: [String : NSNumber]) {
 		print("Search was not successful. Error code: \(String(describing: errorDict[NetService.errorCode]))")
+		restart()
 	}
 	
 	func netService(_ sender: NetService, didUpdateTXTRecord data: Data) {
@@ -148,13 +148,20 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 		browser.searchForServices(ofType: type, inDomain: "local.")
 	}
 	
-	func reset() {
+	func restart() {
+		stop()
+		start()
+	}
+	
+	func stop() {
 		browser.stop()
 		for service in serviceList {
 			service.stop()
 		}
 		serviceList.removeAll()
 		mdnsList.removeAll()
+		MDNSServicesDiscovered.removeAll()
+		CurrentlyConnectedService = nil
 	}
 	
 }
