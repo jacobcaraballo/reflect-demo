@@ -32,8 +32,29 @@ extension UIImage {
 
 extension UIView {
 	
+	func setScale(scale: CGFloat) {
+		transform = CGAffineTransform(scaleX: scale, y: scale)
+	}
+	
 	func setRotation(angle: CGFloat) {
 		transform = CGAffineTransform(rotationAngle: angle)
 	}
 	
 }
+
+extension UIEdgeInsets {
+	
+	var horizontal: CGFloat {
+		return left
+	}
+	
+	var vertical: CGFloat {
+		return top
+	}
+	
+	init(horizontal: CGFloat, vertical: CGFloat) {
+		self.init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
+	}
+	
+}
+

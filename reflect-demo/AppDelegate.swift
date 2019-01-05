@@ -12,6 +12,8 @@ var MDNSServicesDiscovered = [MDNSService]()
 var CurrentlyConnectedService: MDNSService?
 var MDNSReflectBrowser: MDNSBrowser!
 
+var safeInsets: (top: CGFloat, bottom: CGFloat) = (0, 0)
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,11 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
 		
-		MDNSReflectBrowser = MDNSBrowser(type: "_jacobc._tcp.") { services in
+		if let window = window {
+			KeyboardService.setup(inView: window)
+			safeInsets.top = window.safeAreaInsets.top
+			safeInsets.bottom = window.safeAreaInsets.bottom
+		}
+		
+		MDNSReflectBrowser = MDNSBrowser(type: "_RainbowRoad._tcp.") { services in
 			MDNSServicesDiscovered = services
 			self.updateConnectedMDNSService()
 		}
-		MDNSReflectBrowser.start()
 		
 		return true
 	}

@@ -21,6 +21,7 @@ class MDNSBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 		self.type = type
 		self.didUpdateServices = handler
 		super.init()
+		self.browser.includesPeerToPeer = true
 		self.browser.delegate = self
 	}
 	

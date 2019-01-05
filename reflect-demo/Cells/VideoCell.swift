@@ -32,6 +32,13 @@ class VideoCell: UITableViewCell {
 	private let padding: CGFloat = 20
 	private var gradientView: UIView!
 	
+	private var bottomSeparator = UIView()
+	var showsBottomSeparator: Bool = true {
+		didSet {
+			bottomSeparator.alpha = showsBottomSeparator ? 1 : 0
+		}
+	}
+	
 	var instructorName = "Instructor Name" {
 		
 		didSet {
@@ -85,17 +92,17 @@ class VideoCell: UITableViewCell {
 	
 	func setupBottomSeparator() {
 		
-		let sep = UIView()
-		sep.backgroundColor = .black
-		sep.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(sep)
+		bottomSeparator = UIView()
+		bottomSeparator.backgroundColor = .black
+		bottomSeparator.translatesAutoresizingMaskIntoConstraints = false
+		contentView.addSubview(bottomSeparator)
 		
 		NSLayoutConstraint.activate([
 			
-			sep.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-			sep.heightAnchor.constraint(equalToConstant: 5),
-			sep.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-			sep.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+			bottomSeparator.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+			bottomSeparator.heightAnchor.constraint(equalToConstant: 5),
+			bottomSeparator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+			bottomSeparator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 			
 			])
 		

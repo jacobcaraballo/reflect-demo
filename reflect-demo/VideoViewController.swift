@@ -15,31 +15,18 @@ class VideoViewController: UIViewController {
 	var titleChevronImageView: UIImageView!
 	var category: String!
 	var filterView: VideoCategoryFilterListView!
-	let videos = [
-		
-		"20 Min Ultimate Cardio Kick Boxing",
-		"Cardio Abs",
-		"Speed Workout",
-		"20 Min Ultimate Cardio Kick Boxing",
-		"Cardio Abs"
-		
-	]
-	let thumbnails = [
-		
-		"video1",
-		"video2",
-		"video3",
-		"video1",
-		"video2"
-		
-	]
-	let videoCommands = [
 	
-		"playVideo1",
-		"playVideo2",
-		"playVideo3",
-		"playVideo4",
-		"playVideo5"
+	let videos = [
+	
+		[
+			Video(title: "20 Min Ultimate Cardio Kick Boxing", thumbnail: "video1", command: "playVideo1")
+		],
+		[
+			Video(title: "Cardio Abs", thumbnail: "video2", command: "playVideo2"),
+			Video(title: "Speed Workout", thumbnail: "video3", command: "playVideo3"),
+			Video(title: "20 Min Ultimate Cardio Kick Boxing", thumbnail: "video1", command: "playVideo4"),
+			Video(title: "Cardio Abs", thumbnail: "video2", command: "playVideo5")
+		]
 	
 	]
 	
@@ -171,23 +158,99 @@ class VideoViewController: UIViewController {
 
 extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		return videos.count
+	}
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return videos[section].count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "VideoCell", for: indexPath) as! VideoCell
 		cell.selectionStyle = .none
 		cell.instructorName = "Instructor Name"
-		cell.titleText = videos[indexPath.row]
-		cell.thumbnail = thumbnails[indexPath.row]
+		
+		let video =  videos[indexPath.section][indexPath.row]
+		cell.titleText = video.title
+		cell.thumbnail = video.thumbnail
+		cell.showsBottomSeparator = indexPath.section != 0
 		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let connectedService = CurrentlyConnectedService else { return }
-		let videoCommand = videoCommands[indexPath.row]
+		let videoCommand = videos[indexPath.section][indexPath.row].command
 		connectedService.write(string: videoCommand)
+	}
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		
+		let text: NSMutableAttributedString
+		let fontSize: CGFloat = 13
+		
+		if section == 0 {
+			let prestring = "REFLECT LIVE:"
+			let string = "\(prestring) LIVE AND UPCOMING WORKOUTS"
+			text = NSMutableAttributedString(string: string, attributes: [.foregroundColor: UIColor.white])
+			text.addAttribute(.foregroundColor, value: UIColor.red, range: (string as NSString).range(of: prestring))
+			text.addAttribute(.font, value: UIFont.systemFont(ofSize: fontSize), range: NSRange(location: 0, length: string.count))
+		} else {
+			let prestring = "ON-DEMAND:"
+			let string = "\(prestring) WORKOUT ON YOUR TIME"
+			text = NSMutableAttributedString(string: string, attributes: [.foregroundColor: UIColor.white])
+			text.addAttribute(.foregroundColor, value: UIColor.red, range: (string as NSString).range(of: prestring))
+			text.addAttribute(.font, value: UIFont.systemFont(ofSize: fontSize), range: NSRange(location: 0, length: string.count))
+		}
+		
+		let header = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+		
+		let labelLeadingPadding: CGFloat = 15
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.attributedText = text
+		label.adjustsFontSizeToFitWidth = true
+		label.minimumScaleFactor = 0.5
+		header.addSubview(label)
+		
+		NSLayoutConstraint.activate([
+			
+			label.widthAnchor.constraint(equalTo: header.widthAnchor, constant: -labelLeadingPadding),
+			label.heightAnchor.constraint(equalTo: header.heightAnchor),
+			label.centerYAnchor.constraint(equalTo: header.centerYAnchor),
+			label.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: labelLeadingPadding)
+			
+			])
+		
+		
+		return header
+		
+	}
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 35
+	}
+	
+	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+		guard section == 0 else { return UITableView.automaticDimension }
+		return 0.00001
+	}
+	
+	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+		guard section == 0 else { return nil }
+		
+		let view = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 0.00001))
+		return view
+	}
+	
+	func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+		guard let cell = tableView.cellForRow(at: indexPath) else { return }
+		cell.alpha = 0.6
+	}
+	
+	func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+		guard let cell = tableView.cellForRow(at: indexPath) else { return }
+		cell.alpha = 1.0
 	}
 	
 }

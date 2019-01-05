@@ -29,9 +29,20 @@ class ViewController: UIViewController {
 		
 		// set the navigation bar title
 		title = "WORKOUTS"
+		view.backgroundColor = .black
 		
-		
+		setupLoginView()
 		setupTableView()
+	}
+	
+	private func setupLoginView() {
+		
+		let loginView = LoginView()
+		loginView.didAuthenticate = {
+			MDNSReflectBrowser.start()
+		}
+		navigationController?.present(loginView, animated: false, completion: nil)
+		
 	}
 	
 	
