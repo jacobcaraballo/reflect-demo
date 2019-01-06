@@ -14,20 +14,20 @@ class LoginView: UIViewController {
 	var continueButton: UIButton!
 	
 	// title attributes
-	let titleLabel = UILabel()
-	let titleLabelHeightBig: CGFloat = 180
-	let titleLabelHeightSmall: CGFloat = 50
+	let logo = UIImageView()
+	let logoHeightBig: CGFloat = 100
+	let logoHeightSmall: CGFloat = 90
 	
 	
 	// animatable constraints
-	var titleLabelHeightConstraint: NSLayoutConstraint!
+	var logoHeightConstraint: NSLayoutConstraint!
 	var continueButtonBottomConstraint: NSLayoutConstraint!
+	var usernameTopConstraint: NSLayoutConstraint!
+	var logoTopConstraint: NSLayoutConstraint!
 	
 	
 	// font sizes
 	let fieldLabelFontSize: CGFloat = 12
-	let titleFontSizeSmall: CGFloat = 50
-	let titleFontSizeBig: CGFloat = 35
 	
 	
 	// field variables
@@ -42,8 +42,15 @@ class LoginView: UIViewController {
 	
 	
 	// field attributes
+	var logoTopPadding: CGFloat {
+		return UIApplication.shared.statusBarFrame.height + fieldPadding.vertical + 30
+	}
+	var logoTopPaddingCompact: CGFloat {
+		return UIApplication.shared.statusBarFrame.height + fieldPadding.vertical
+	}
 	let fieldHeight: CGFloat = 40
-	let titleToFieldPadding: CGFloat = 40
+	let logoToFieldPadding: CGFloat = 70
+	let logoToFieldPaddingCompact: CGFloat = 20
 	let fieldPadding = UIEdgeInsets(horizontal: 30, vertical: 25)
 	let fieldRadius: CGFloat = 20
 	let fieldPlaceholderColor = UIColor(white: 1, alpha: 0.4)
@@ -65,29 +72,28 @@ class LoginView: UIViewController {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor(white: 0.1, alpha: 1)
 		
-		setupTitleLabel()
+		setupLogo()
 		setupUsernameField()
 		setupPasswordField()
 		setupContinueButton()
 	}
 	
-	private func setupTitleLabel() {
+	private func setupLogo() {
 		
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		titleLabel.textColor = .white
-		titleLabel.text = "REFLECT"
-		titleLabel.font = UIFont.italicSystemFont(ofSize: titleFontSizeSmall)
-		titleLabel.adjustsFontSizeToFitWidth = true
-		titleLabel.sizeToFit()
-		view.addSubview(titleLabel)
+		logo.translatesAutoresizingMaskIntoConstraints = false
+		logo.contentMode = .scaleAspectFit
+		logo.image = UIImage(named: "logo2")
+		view.addSubview(logo)
 		
-		titleLabelHeightConstraint = titleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeightBig)
+		logoHeightConstraint = logo.heightAnchor.constraint(equalToConstant: logoHeightBig)
+		logoTopConstraint = logo.topAnchor.constraint(equalTo: view.topAnchor, constant: logoTopPadding)
 		
 		NSLayoutConstraint.activate([
 			
-			titleLabelHeightConstraint,
-			titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIApplication.shared.statusBarFrame.height + fieldPadding.vertical)
+			logo.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(fieldPadding.horizontal * 2)),
+			logoHeightConstraint,
+			logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			logoTopConstraint
 			
 			])
 		
@@ -128,13 +134,14 @@ class LoginView: UIViewController {
 		bottomBorder.backgroundColor = .red
 		usernameFieldView.addSubview(bottomBorder)
 		
+		usernameTopConstraint = usernameFieldView.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: logoToFieldPadding)
 		
 		NSLayoutConstraint.activate([
 			
 			usernameFieldView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(fieldPadding.horizontal * 2)),
 			usernameFieldView.heightAnchor.constraint(equalToConstant: fieldHeight + usernameLabel.frame.height),
 			usernameFieldView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			usernameFieldView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: titleToFieldPadding),
+			usernameTopConstraint,
 			
 			usernameLabel.topAnchor.constraint(equalTo: usernameFieldView.topAnchor),
 			usernameLabel.leadingAnchor.constraint(equalTo: usernameFieldView.leadingAnchor),
@@ -307,11 +314,12 @@ extension LoginView: UITextFieldDelegate {
 		guard !labelsAreCompact else { return true }
 		
 		labelsAreCompact = true
-		titleLabelHeightConstraint.constant = titleLabelHeightSmall
+		logoHeightConstraint.constant = logoHeightSmall
+		usernameTopConstraint.constant = logoToFieldPaddingCompact
+		logoTopConstraint.constant = logoTopPaddingCompact
 		
 		let anim = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
 			self.view.layoutIfNeeded()
-			self.titleLabel.setScale(scale: self.titleFontSizeBig / self.titleFontSizeSmall)
 		}
 
 		anim.startAnimation()
