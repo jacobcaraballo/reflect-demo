@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class LoginView: UIViewController {
+class LoginViewController: UIViewController {
 	
 	var continueButton: UIButton!
 	
@@ -68,6 +68,7 @@ class LoginView: UIViewController {
 		return .lightContent
 	}
 	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor(white: 0.1, alpha: 1)
@@ -77,6 +78,7 @@ class LoginView: UIViewController {
 		setupPasswordField()
 		setupContinueButton()
 	}
+	
 	
 	private func setupLogo() {
 		
@@ -98,6 +100,7 @@ class LoginView: UIViewController {
 			])
 		
 	}
+	
 	
 	private func setupUsernameField() {
 		
@@ -127,6 +130,7 @@ class LoginView: UIViewController {
 		usernameField.inputAccessoryView = createContinueButton()
 		usernameField.inputAccessoryView!.heightAnchor.constraint(equalToConstant: 55).isActive = true
 		usernameFieldView.addSubview(usernameField)
+		
 		
 		// create bottom border under the field
 		let bottomBorder = UIView()
@@ -159,6 +163,7 @@ class LoginView: UIViewController {
 			])
 		
 	}
+	
 	
 	private func setupPasswordField() {
 		
@@ -220,6 +225,7 @@ class LoginView: UIViewController {
 		
 	}
 	
+	
 	private func createContinueButton() -> UIButton {
 		let continueButton = UIButton()
 		continueButton.translatesAutoresizingMaskIntoConstraints = false
@@ -230,6 +236,7 @@ class LoginView: UIViewController {
 		continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
 		return continueButton
 	}
+	
 	
 	private func setupContinueButton() {
 		
@@ -268,6 +275,7 @@ class LoginView: UIViewController {
 		
 	}
 	
+	
 	@objc func continueButtonPressed() -> Bool {
 		guard let textField: UITextField =
 			usernameField.isFirstResponder ? usernameField :
@@ -286,12 +294,17 @@ class LoginView: UIViewController {
 		return true
 	}
 	
+	
 	private func verifyCredentials() -> Bool {
 		guard let username = usernameField.text, !username.isEmpty else { return false }
 		guard let password = passwordField.text, !password.isEmpty else { return false }
 		
+		// verify the credentials with the server
+		// return false if they are unauthorized
+		
 		return true
 	}
+	
 	
 	private func dismiss() {
 		guard verifyCredentials() else { return }
@@ -301,14 +314,16 @@ class LoginView: UIViewController {
 		
 	}
 	
+	
 }
 
 
-extension LoginView: UITextFieldDelegate {
+extension LoginViewController: UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		return continueButtonPressed()
 	}
+	
 	
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 		guard !labelsAreCompact else { return true }
@@ -326,5 +341,6 @@ extension LoginView: UITextFieldDelegate {
 		
 		return true
 	}
+	
 	
 }

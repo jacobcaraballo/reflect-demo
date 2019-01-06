@@ -37,8 +37,10 @@ class ViewController: UIViewController {
 	
 	private func setupLoginView() {
 		
-		let loginView = LoginView()
+		// present the login view
+		let loginView = LoginViewController()
 		loginView.didAuthenticate = {
+			// on authentication, begin searching for mirror
 			MDNSReflectBrowser.start()
 		}
 		navigationController?.present(loginView, animated: false, completion: nil)
@@ -56,6 +58,7 @@ class ViewController: UIViewController {
 		tableView.backgroundColor = nil
 		tableView.separatorStyle = .none
 		view.addSubview(tableView)
+		
 		
 		NSLayoutConstraint.activate([
 			
@@ -92,14 +95,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.selectionStyle = .none
 		
 		
-		
 		// expand cell if selected, else reset expansion
 		if indexPath == selectedIndexPath {
 			cell.toggle(expanded: true, animated: false)
 		} else {
 			cell.toggle(expanded: false, animated: false)
 		}
-		
 		
 		
 		return cell
@@ -112,14 +113,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		
 		guard indexPath != selectedIndexPath else { return rowHeightExpanded }
 		return rowHeightCollapsed
-		
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
 		
 		// get cell for this index
 		let cell = tableView.cellForRow(at: indexPath) as! CategoryCell
@@ -136,11 +134,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 		// if the row is expanded, then we move to the page
 		// otherwise, expand the cell
 		if indexPath == resetIndexPath {
-			
 			let videoVC = VideoViewController()
 			videoVC.category = categories[indexPath.row]
 			navigationController?.pushViewController(videoVC, animated: true)
-			
 		} else {
 			selectedIndexPath = indexPath
 			cell.toggle(expanded: true, animated: true)
@@ -164,7 +160,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	
-	// returns the indexpath that was reset
+	// returns the indexPath that was reset
 	@discardableResult
 	func resetCurrentlyExpandedRow() -> IndexPath? {
 		
