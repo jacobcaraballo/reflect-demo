@@ -23,6 +23,8 @@
 		1699CCAF21DDB76E00E2E194 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1699CCAE21DDB76E00E2E194 /* LoginViewController.swift */; };
 		1699CCB221DDFEB200E2E194 /* MDNSBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1699CCB021DDFEB200E2E194 /* MDNSBrowser.swift */; };
 		1699CCB321DDFEB200E2E194 /* MDNSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1699CCB121DDFEB200E2E194 /* MDNSService.swift */; };
+		16B3A37321F79E04007BFB9C /* VideoDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B3A37221F79E04007BFB9C /* VideoDescriptionViewController.swift */; };
+		16B3A37521F7A688007BFB9C /* VideoDescriptionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B3A37421F7A688007BFB9C /* VideoDescriptionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		1699CCAE21DDB76E00E2E194 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1699CCB021DDFEB200E2E194 /* MDNSBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDNSBrowser.swift; sourceTree = "<group>"; };
 		1699CCB121DDFEB200E2E194 /* MDNSService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDNSService.swift; sourceTree = "<group>"; };
+		16B3A37221F79E04007BFB9C /* VideoDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDescriptionViewController.swift; sourceTree = "<group>"; };
+		16B3A37421F7A688007BFB9C /* VideoDescriptionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDescriptionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				165AA4E321E04E6A003681F7 /* KeyboardService.swift */,
 				165AA4E021E00201003681F7 /* Video.swift */,
 				1644C46121DAC45600E9DE65 /* VideoViewController.swift */,
+				16B3A37221F79E04007BFB9C /* VideoDescriptionViewController.swift */,
+				16B3A37421F7A688007BFB9C /* VideoDescriptionHeaderView.swift */,
 				1699CCAC21DD984300E2E194 /* VideoCategoryFilterListView.swift */,
 				1699CCAE21DDB76E00E2E194 /* LoginViewController.swift */,
 				1699CCAA21DD961B00E2E194 /* Extensions.swift */,
@@ -195,7 +201,9 @@
 				1601759B21DA93A100015B4A /* AppDelegate.swift in Sources */,
 				165AA4E121E00201003681F7 /* Video.swift in Sources */,
 				1644C46221DAC45600E9DE65 /* VideoViewController.swift in Sources */,
+				16B3A37521F7A688007BFB9C /* VideoDescriptionHeaderView.swift in Sources */,
 				1699CCAF21DDB76E00E2E194 /* LoginViewController.swift in Sources */,
+				16B3A37321F79E04007BFB9C /* VideoDescriptionViewController.swift in Sources */,
 				160175AD21DA99E800015B4A /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

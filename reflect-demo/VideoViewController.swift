@@ -16,18 +16,7 @@ class VideoViewController: UIViewController {
 	var category: String!
 	var filterView: VideoCategoryFilterListView!
 	
-	let videos = [
-	
-		[
-			Video(title: "Total Body Workout", instructor: "Jama Oliver", thumbnail: "video1", command: "reflect - Jama 2")
-		],
-		[
-			Video(title: "Strength Workout", instructor: "Jama Oliver", thumbnail: "video2", command: "Reflect- Jama-1mp4"),
-			Video(title: "Holy Hits", instructor: "Jamie Wilbanks", thumbnail: "video3", command: "reflect- Jamie"),
-			Video(title: "Body Weight Hit", instructor: "Marsha Goldberg", thumbnail: "video4", command: "reflect- Marsha-")
-		]
-	
-	]
+	var videos = [[Video]]()
 	
 	
 	
@@ -35,6 +24,9 @@ class VideoViewController: UIViewController {
 		super.viewDidLoad()
 		
 		view.backgroundColor = UIColor(white: 0, alpha: 1.0)
+		
+		// load videos
+		loadVideos()
 		
 		
 		// set the title to the filter title view
@@ -44,6 +36,81 @@ class VideoViewController: UIViewController {
 		// layout tableview and (hidden) category filter view
 		setupTableView()
 		setupCategoryFilterView()
+	}
+	
+	func loadVideos() {
+		
+		let liveVideo = Video(title: "Total Body Workout", instructor: "Jama Oliver", thumbnail: "video1", command: "reflect - Jama 2")
+		liveVideo.add(exercises: [
+			
+			Exercise(name: "Intro", lengthInSeconds: 25),
+			Exercise(name: "Jumping Jacks", lengthInSeconds: 35),
+			Exercise(name: "Forward Lunges", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Push Up", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Lateral Squat Walk", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Tap", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Cooldown", lengthInSeconds: 45)
+			
+			])
+		liveVideo.about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+		
+		let video1 = Video(title: "Strength Workout", instructor: "Jama Oliver", thumbnail: "video2", command: "Reflect- Jama-1mp4")
+		video1.add(exercises: [
+			
+			Exercise(name: "Intro", lengthInSeconds: 25),
+			Exercise(name: "Jumping Jacks", lengthInSeconds: 35),
+			Exercise(name: "Forward Lunges", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Push Up", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Lateral Squat Walk", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Tap", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Cooldown", lengthInSeconds: 45)
+			
+			])
+		video1.about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+		
+		let video2 = Video(title: "Holy Hits", instructor: "Jamie Wilbanks", thumbnail: "video3", command: "reflect- Jamie")
+		video2.add(exercises: [
+			
+			Exercise(name: "Intro", lengthInSeconds: 25),
+			Exercise(name: "Jumping Jacks", lengthInSeconds: 35),
+			Exercise(name: "Forward Lunges", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Push Up", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Lateral Squat Walk", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Tap", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Cooldown", lengthInSeconds: 45)
+			
+			])
+		video2.about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+		
+		let video3 = Video(title: "Body Weight Hit", instructor: "Marsha Goldberg", thumbnail: "video4", command: "reflect- Marsha-")
+		video3.add(exercises: [
+			
+			Exercise(name: "Intro", lengthInSeconds: 25),
+			Exercise(name: "Jumping Jacks", lengthInSeconds: 35),
+			Exercise(name: "Forward Lunges", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Push Up", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Lateral Squat Walk", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Walkout + Tap", lengthInSeconds: 35),
+			Exercise(name: "Rest", lengthInSeconds: 25),
+			Exercise(name: "Cooldown", lengthInSeconds: 45)
+			
+			])
+		video3.about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+		
+		videos.append([liveVideo])
+		videos.append([video1, video2, video3])
+		
 	}
 	
 	func setupCategoryFilterView() {
@@ -206,9 +273,19 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+		// show video description
+		let video = videos[indexPath.section][indexPath.row]
+		let videoDescriptionVC = VideoDescriptionViewController()
+		videoDescriptionVC.video = video
+		navigationController?.pushViewController(videoDescriptionVC, animated: true)
+		
+		
+		// connect to mirror, if available
 		guard let connectedService = CurrentlyConnectedService else { return }
-		let videoCommand = videos[indexPath.section][indexPath.row].command
+		let videoCommand = video.command
 		connectedService.write(string: videoCommand)
+		
 	}
 	
 	
